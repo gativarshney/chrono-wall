@@ -93,8 +93,56 @@ function NebulaCore({ scene }: { scene: (typeof COSMIC_SCENES)[0] }) {
   );
 }
 
+function CometTrail({
+  color,
+  count,
+  speed,
+}: {
+  color: string;
+  count: number;
+  speed: number;
+}) {
+  const ref = useRef<THREE.InstancedMesh>(null!);
+  const seeds = useMemo(
+    () =>
+      Array.from({ length: count }, () => ({
+        x: Math.random() * 5 - 2.5,
+        y: Math.random() * 2.2 - 1.1,
+        z: Math.random() * 2 - 1.2,
+        offset: Math.random() * Math.PI * 2,
+        scale: 0.02 + Math.random() * 0.03,
+      })),
+    [count]
+  );
+
+  useFrame((state) => {
+    if (!ref.current) return;
+    const dummy = new THREE.Object3D();
+    const t = state.clock.elapsedTime;
+    seeds.forEach((seed, i) => {
+      const progress = ((t * speed + seed.offset) % 1) * 1.4;
+      dummy.position.set(seed.x - progress * 2.4, seed.y + progress * 0.7, seed.z);
+      dummy.scale.set(seed.scale * 2.4, seed.scale * 0.55, seed.scale);
+      dummy.rotation.z = -0.55;
+      dummy.updateMatrix();
+      ref.current.setMatrixAt(i, dummy.matrix);
+    });
+    ref.current.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh ref={ref} args={[undefined, undefined, count]}>
+      <sphereGeometry args={[1, 6, 6]} />
+      <meshBasicMaterial color={color} transparent opacity={0.55} />
+    </instancedMesh>
+  );
+}
+
 export function HeroPanel({ month }: { month: number }) {
   const scene = COSMIC_SCENES[month];
+  const winterMode = month === 10 || month === 11 || month === 0;
+  const meteorMode = month === 7;
+  const calmMode = month === 2 || month === 5;
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-t-2xl bg-[#060810]">
@@ -105,12 +153,33 @@ export function HeroPanel({ month }: { month: number }) {
       >
         <Suspense fallback={null}>
           <fog attach="fog" args={["#05070f", 2.4, 6.2]} />
-          <ambientLight intensity={0.32} />
-          <directionalLight position={[2, 1.5, 2.8]} intensity={0.55} color={scene.particleColor} />
-          <pointLight position={[-1.4, -0.8, 1.8]} intensity={0.4} color={scene.nebulaColor} />
-          <StarField scene={scene} radius={[1.45, 2.5]} speed={0.02} opacity={0.72} size={0.009} />
-          <StarField scene={scene} radius={[0.9, 1.65]} speed={0.045} opacity={0.95} size={0.012} />
+          <ambientLight intensity={winterMode ? 0.4 : 0.32} />
+          <directionalLight
+            position={[2, 1.5, 2.8]}
+            intensity={winterMode ? 0.68 : 0.55}
+            color={scene.particleColor}
+          />
+          <pointLight
+            position={[-1.4, -0.8, 1.8]}
+            intensity={calmMode ? 0.34 : 0.45}
+            color={scene.nebulaColor}
+          />
+          <StarField
+            scene={scene}
+            radius={winterMode ? [1.35, 2.55] : [1.45, 2.5]}
+            speed={calmMode ? 0.013 : 0.02}
+            opacity={winterMode ? 0.86 : 0.72}
+            size={winterMode ? 0.01 : 0.009}
+          />
+          <StarField
+            scene={scene}
+            radius={meteorMode ? [0.82, 1.45] : [0.9, 1.65]}
+            speed={meteorMode ? 0.065 : 0.045}
+            opacity={meteorMode ? 0.98 : 0.95}
+            size={meteorMode ? 0.013 : 0.012}
+          />
           <NebulaCore scene={scene} />
+          {meteorMode && <CometTrail color={scene.particleColor} count={18} speed={0.22} />}
         </Suspense>
       </Canvas>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,rgba(255,255,255,0.14),transparent_56%)]" />

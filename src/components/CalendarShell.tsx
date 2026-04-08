@@ -64,7 +64,7 @@ export function CalendarShell() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 md:p-8">
+    <div className="flex min-h-screen items-center justify-center p-3 md:p-6">
       <div className="absolute left-1/2 top-0 h-16 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-ring/40" />
 
       <motion.div
@@ -76,15 +76,15 @@ export function CalendarShell() {
           rotateY: allowTilt ? rotateY : 0,
           transformStyle: "preserve-3d",
         }}
-        className="relative w-full max-w-5xl"
+        className="relative w-full max-w-5xl max-h-[94vh]"
       >
         <RingBinder />
 
         <div
-          className="paper-surface relative overflow-hidden rounded-2xl bg-paper shadow-calendar"
+          className="paper-surface relative max-h-[92vh] overflow-hidden rounded-2xl bg-paper shadow-calendar"
           style={{ transformStyle: "preserve-3d" }}
         >
-          <div className="hidden min-h-[600px] h-full md:grid md:grid-cols-[2fr_1fr]">
+          <div className="hidden h-full min-h-[560px] md:grid md:max-h-[92vh] md:grid-cols-[2fr_1fr]">
             <div className="flex flex-col">
               <div className="relative h-52">
                 <HeroPanel month={currentDate.getMonth()} />
@@ -95,7 +95,7 @@ export function CalendarShell() {
             <NotesPanel />
           </div>
 
-          <div className="flex flex-col md:hidden">
+          <div className="flex max-h-[90vh] flex-col overflow-y-auto md:hidden">
             <div className="relative h-40">
               <HeroPanel month={currentDate.getMonth()} />
             </div>
