@@ -44,12 +44,12 @@ export function NotesPanel() {
               onClick={() => setActiveColor(c)}
               className={`h-5 w-5 rounded-full border-2 transition-transform ${NOTE_COLORS[c]} ${
                 activeColor === c ? "scale-125 border-ink" : "border-transparent"
-              }`}
+              } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora-mid/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper`}
             />
           ))}
           <button
             onClick={() => addNewNote(activeColor)}
-            className="ml-auto rounded border border-ink/10 px-2 py-1 font-sans text-xs font-medium text-ink-muted transition-colors hover:border-ink/20 hover:text-ink"
+            className="ml-auto rounded border border-ink/10 px-2 py-1 font-sans text-xs font-medium text-ink-muted transition-colors hover:border-ink/20 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora-mid/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
             + Add note
           </button>
@@ -72,7 +72,7 @@ export function NotesPanel() {
                 onChange={(e) => updateNote(note.id, e.target.value)}
                 placeholder="Write something..."
                 rows={3}
-                className="w-full resize-none bg-transparent font-sans text-sm text-ink placeholder:text-ink-muted/50 focus:outline-none"
+                className="w-full min-h-[72px] resize-none bg-transparent font-sans text-sm text-ink placeholder:text-ink-muted/50 focus:outline-none"
               />
               <div className="mt-1 flex items-center gap-2">
                 <button

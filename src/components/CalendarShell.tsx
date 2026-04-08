@@ -14,6 +14,7 @@ export function CalendarShell() {
   const { currentDate } = useCalendarStore();
   const ref = useRef<HTMLDivElement>(null);
   const [allowTilt, setAllowTilt] = useState(false);
+  const [tiltRange, setTiltRange] = useState(4);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -34,12 +35,27 @@ export function CalendarShell() {
     return () => mediaQuery.removeEventListener("change", apply);
   }, []);
 
+  useEffect(() => {
+    const applyRange = () => {
+      if (window.innerWidth < 1200) {
+        setTiltRange(2.5);
+      } else {
+        setTiltRange(4);
+      }
+    };
+    applyRange();
+    window.addEventListener("resize", applyRange);
+    return () => window.removeEventListener("resize", applyRange);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!allowTilt) return;
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+    const nx = (e.clientX - rect.left) / rect.width - 0.5;
+    const ny = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set((nx * tiltRange) / 4);
+    mouseY.set((ny * tiltRange) / 4);
   };
 
   const handleMouseLeave = () => {

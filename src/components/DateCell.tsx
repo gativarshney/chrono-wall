@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import type { DateCell as DateCellType } from "@/types";
 
 interface Props {
@@ -21,7 +21,7 @@ export function DateCell({
   onClick,
   onHover,
 }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLButtonElement>(null);
   const [allowMagnetic, setAllowMagnetic] = useState(true);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -57,9 +57,12 @@ export function DateCell({
   };
 
   return (
-    <div
+    <button
       ref={ref}
-      className={`date-cell relative flex aspect-square w-full cursor-pointer select-none flex-col items-center justify-center rounded-lg font-sans text-sm font-medium transition-all duration-150 ${getStateClass()}`}
+      type="button"
+      aria-label={format(cell.date, "PPPP")}
+      aria-pressed={isStart || isEnd || isInRange || isSameDay(cell.date, new Date())}
+      className={`date-cell relative flex aspect-square w-full cursor-pointer select-none flex-col items-center justify-center rounded-lg font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora-mid/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${getStateClass()}`}
       onClick={() => onClick(cell.date)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -73,6 +76,6 @@ export function DateCell({
         <span className="absolute bottom-1 h-1 w-1 rounded-full bg-aurora-mid" />
       )}
       {cell.isToday && <span className="absolute right-1 top-1 h-1 w-1 rounded-full bg-ink" />}
-    </div>
+    </button>
   );
 }

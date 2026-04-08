@@ -11,7 +11,7 @@ export function MobileNotesToggle() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="mx-4 mb-4 rounded-xl border border-ink/10 py-3 text-center font-sans text-sm font-medium text-ink-muted transition-colors hover:border-ink/20"
+        className="mx-4 mb-4 rounded-xl border border-ink/10 py-3 text-center font-sans text-sm font-medium text-ink-muted transition-colors hover:border-ink/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora-mid/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
         Notes ↑
       </button>
@@ -31,7 +31,7 @@ export function MobileNotesToggle() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 z-50 h-2/3 overflow-hidden rounded-t-3xl bg-paper"
+              className="fixed bottom-0 left-0 right-0 z-50 h-[78vh] max-h-[680px] overflow-hidden rounded-t-3xl bg-paper"
             >
               <div className="mx-auto mb-1 mt-3 h-1 w-12 rounded-full bg-ink/20" />
               <NotesPanel />

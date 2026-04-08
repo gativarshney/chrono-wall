@@ -12,7 +12,8 @@ export function MonthNav() {
       <motion.button
         whileTap={{ scale: 0.9 }}
         onClick={goToPrevMonth}
-        className="flex h-8 w-8 items-center justify-center rounded-full font-sans text-sm text-ink-muted transition-colors hover:bg-paper-dark hover:text-ink"
+        className="flex h-8 w-8 items-center justify-center rounded-full font-sans text-sm text-ink-muted transition-colors hover:bg-paper-dark hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora-mid/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        aria-label="Go to previous month"
       >
         ←
       </motion.button>
@@ -27,7 +28,8 @@ export function MonthNav() {
       <motion.button
         whileTap={{ scale: 0.9 }}
         onClick={goToNextMonth}
-        className="flex h-8 w-8 items-center justify-center rounded-full font-sans text-sm text-ink-muted transition-colors hover:bg-paper-dark hover:text-ink"
+        className="flex h-8 w-8 items-center justify-center rounded-full font-sans text-sm text-ink-muted transition-colors hover:bg-paper-dark hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora-mid/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        aria-label="Go to next month"
       >
         →
       </motion.button>
