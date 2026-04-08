@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { LenisProvider } from "@/components/LenisProvider";
 
 export const metadata: Metadata = {
   title: "Chrono Wall — Interactive Calendar",
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <LenisProvider>{children}</LenisProvider>
+      </body>
     </html>
   );
 }
