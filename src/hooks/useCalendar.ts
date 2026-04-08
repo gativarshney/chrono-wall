@@ -1,7 +1,6 @@
 import {
   eachDayOfInterval,
-  endOfMonth,
-  endOfWeek,
+  addDays,
   isSameMonth,
   isToday,
   isWeekend,
@@ -19,9 +18,9 @@ const HOLIDAYS: Record<string, string> = {
 
 export function useCalendar(currentDate: Date): DateCell[] {
   const monthStart = startOfMonth(currentDate);
-  const monthEnd = endOfMonth(currentDate);
   const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 });
-  const gridEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
+  // Keep a fixed 6-row calendar grid (42 cells) for stable layout across months.
+  const gridEnd = addDays(gridStart, 41);
 
   return eachDayOfInterval({ start: gridStart, end: gridEnd }).map((date) => {
     const key = `${String(date.getMonth() + 1).padStart(2, "0")}-${String(
