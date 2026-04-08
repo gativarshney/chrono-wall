@@ -19,6 +19,15 @@ interface CalendarStore {
   togglePinNote: (id: string) => void;
 }
 
+const reviveDate = (value: unknown, fallback: Date | null): Date | null => {
+  if (value instanceof Date) return value;
+  if (typeof value === "string" || typeof value === "number") {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) return parsed;
+  }
+  return fallback;
+};
+
 export const useCalendarStore = create<CalendarStore>()(
   persist(
     (set) => ({
@@ -81,6 +90,27 @@ export const useCalendarStore = create<CalendarStore>()(
           ),
         })),
     }),
-    { name: "chrono-wall-storage" }
+    {
+      name: "chrono-wall-storage",
+      merge: (persistedState, currentState) => {
+        const persisted = (persistedState ?? {}) as Partial<CalendarStore>;
+        const persistedRange = persisted.selectedRange as
+          | Partial<DateRange>
+          | undefined;
+
+        return {
+          ...currentState,
+          ...persisted,
+          currentDate: reviveDate(persisted.currentDate, currentState.currentDate) ?? new Date(),
+          selectedRange: {
+            start: reviveDate(
+              persistedRange?.start,
+              currentState.selectedRange.start
+            ),
+            end: reviveDate(persistedRange?.end, currentState.selectedRange.end),
+          },
+        };
+      },
+    }
   )
 );
