@@ -7,6 +7,7 @@ import { useRangeSelect } from "@/hooks/useRangeSelect";
 import { DateCell } from "@/components/DateCell";
 
 const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const PAGE_EASE: [number, number, number, number] = [0.23, 1, 0.32, 1];
 
 const pageCurlVariants = {
   enter: (direction: string) => ({
@@ -17,13 +18,13 @@ const pageCurlVariants = {
   center: {
     rotateY: 0,
     opacity: 1,
-    transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] },
+    transition: { duration: 0.45, ease: PAGE_EASE },
   },
   exit: (direction: string) => ({
     rotateY: direction === "forward" ? -90 : 90,
     opacity: 0,
     transformOrigin: direction === "forward" ? "right center" : "left center",
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transition: { duration: 0.4, ease: PAGE_EASE },
   }),
 };
 

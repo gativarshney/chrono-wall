@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { format } from "date-fns";
 import type { DateCell as DateCellType } from "@/types";
 
@@ -22,8 +22,10 @@ export function DateCell({
   onHover,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const [allowMagnetic, setAllowMagnetic] = useState(true);
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (!allowMagnetic) return;
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
@@ -35,6 +37,14 @@ export function DateCell({
     if (!ref.current) return;
     ref.current.style.transform = "";
     onHover(null);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    const isTouch = e.pointerType === "touch";
+    setAllowMagnetic(!isTouch);
+    if (isTouch) {
+      onHover(cell.date);
+    }
   };
 
   const getStateClass = () => {
@@ -54,6 +64,8 @@ export function DateCell({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={() => onHover(cell.date)}
+      onPointerDown={handlePointerDown}
+      onTouchStart={() => onHover(cell.date)}
       title={cell.holidayName}
     >
       {format(cell.date, "d")}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useCalendarStore } from "@/store/calendarStore";
 import { HeroPanel } from "@/components/HeroPanel";
@@ -13,6 +13,7 @@ import { MobileNotesToggle } from "@/components/MobileSheet";
 export function CalendarShell() {
   const { currentDate } = useCalendarStore();
   const ref = useRef<HTMLDivElement>(null);
+  const [allowTilt, setAllowTilt] = useState(false);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -25,7 +26,16 @@ export function CalendarShell() {
     damping: 30,
   });
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(pointer: fine)");
+    const apply = () => setAllowTilt(mediaQuery.matches);
+    apply();
+    mediaQuery.addEventListener("change", apply);
+    return () => mediaQuery.removeEventListener("change", apply);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (!allowTilt) return;
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
@@ -45,7 +55,11 @@ export function CalendarShell() {
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={{
+          rotateX: allowTilt ? rotateX : 0,
+          rotateY: allowTilt ? rotateY : 0,
+          transformStyle: "preserve-3d",
+        }}
         className="relative w-full max-w-5xl"
       >
         <RingBinder />
