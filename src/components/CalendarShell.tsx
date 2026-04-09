@@ -35,16 +35,11 @@ export function CalendarShell() {
   }, []);
 
   useEffect(() => {
-    const applyRange = () => {
-      if (window.innerWidth < 1200) {
-        setTiltRange(2.5);
-      } else {
-        setTiltRange(4);
-      }
-    };
-    applyRange();
-    window.addEventListener("resize", applyRange);
-    return () => window.removeEventListener("resize", applyRange);
+    const mediaQuery = window.matchMedia("(min-width: 1200px)");
+    const apply = () => setTiltRange(mediaQuery.matches ? 4 : 2.5);
+    apply();
+    mediaQuery.addEventListener("change", apply);
+    return () => mediaQuery.removeEventListener("change", apply);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
