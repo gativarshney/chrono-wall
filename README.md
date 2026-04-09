@@ -49,10 +49,14 @@ This is not a flat date picker; it is a crafted interaction surface.
 - fixed 6-row monthly grid (42 cells) for layout stability across all months
 
 ### 3) Rich Range + Notes Workflow
-- click-to-select date range (start/end)
-- animated aurora highlight for in-range days
-- sticky notes mapped to selected range keys
-- note colors, pinning, edit/delete, persisted via Zustand storage
+- **Date Range Selection:** Click to select any date range (e.g., April 9–17)
+- **Day-wise Notes:** Add, edit, and manage notes for specific days or date ranges
+- **Note Storage:** All notes persist locally using Zustand storage middleware
+- **Visual Organization:** Color-coded notes (yellow, blue, pink, green) with pinning capability
+- **Edit & Delete:** Full CRUD operations on notes with real-time updates
+- **Animated Aurora Highlight:** In-range days display animated glow for visual feedback
+- **Desktop Notes Panel:** Dedicated side panel for desktop view (sticky headers, smooth scrolling)
+- **Mobile Simplified:** Mobile view focused on calendar interaction (notes feature removed for clarity)
 
 ### 4) Responsive by Design
 - desktop: hero + grid + notes side panel
@@ -80,11 +84,16 @@ This is not a flat date picker; it is a crafted interaction surface.
 - [x] ring-binder top detail
 - [x] month navigation with page-curl-like animation
 - [x] stable 42-cell month grid
-- [x] date range state machine with clear/reset logic
+- [x] **date range selection** with multiple-day support (e.g., April 9–17)
+- [x] **day-wise notes system** for capturing thoughts across date ranges
+- [x] **persistent local storage** for all notes via Zustand
+- [x] animated aurora-glow highlight for selected ranges
 - [x] magnetic date hover (desktop) + mobile-safe interaction fallback
 - [x] monthly procedural 3D hero tuning
-- [x] sticky notes panel with local persistence
-- [x] mobile notes bottom sheet
+- [x] **sticky notes with CRUD operations** (add, edit, delete, pin)
+- [x] color-coded notes (4 colors) with visual organization
+- [x] desktop notes side panel with rich interactions
+- [x] mobile calendar-only experience (notes removed for UX clarity)
 - [x] custom Chrono Wall favicon/icon
 
 ---
