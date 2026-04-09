@@ -35,7 +35,10 @@ export function MonthGrid() {
     useRangeSelect();
 
   return (
-    <div style={{ perspective: "1200px" }} className="relative flex-1 p-4">
+    <div
+      style={{ perspective: "1200px" }}
+      className="relative p-2 sm:p-4 md:flex-1 md:min-h-0"
+    >
       <AnimatePresence mode="wait" custom={curlDirection}>
         <motion.div
           key={`${currentDate.getFullYear()}-${currentDate.getMonth()}`}
@@ -45,19 +48,20 @@ export function MonthGrid() {
           animate="center"
           exit="exit"
           style={{ transformStyle: "preserve-3d" }}
+          className="min-h-0"
         >
-          <div className="mb-2 grid grid-cols-7">
+          <div className="mb-1 grid grid-cols-7 sm:mb-2">
             {DAY_LABELS.map((d) => (
               <div
                 key={d}
-                className="py-1 text-center text-xs font-medium uppercase tracking-wider text-ink-muted"
+                className="py-0.5 text-center text-[10px] font-medium uppercase tracking-wide text-ink-muted sm:py-1 sm:text-xs"
               >
                 {d}
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-7 gap-1">
+          <div className="grid grid-cols-7 gap-0.5 sm:gap-1">
             {cells.map((cell, i) => (
               <DateCell
                 key={`${cell.date.toISOString()}-${i}`}

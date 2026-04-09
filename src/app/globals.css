@@ -35,6 +35,10 @@ body {
   border-radius: inherit;
 }
 
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
 .aurora-range {
   position: relative;
 }

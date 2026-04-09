@@ -8,7 +8,6 @@ import { MonthGrid } from "@/components/MonthGrid";
 import { MonthNav } from "@/components/MonthNav";
 import { NotesPanel } from "@/components/NotesPanel";
 import { RingBinder } from "@/components/RingBinder";
-import { MobileNotesToggle } from "@/components/MobileSheet";
 
 export function CalendarShell() {
   const { currentDate } = useCalendarStore();
@@ -64,8 +63,8 @@ export function CalendarShell() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-3 md:p-6">
-      <div className="absolute left-1/2 top-0 h-16 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-ring/40" />
+    <div className="flex min-h-screen items-center justify-center p-2 sm:p-3 md:p-6">
+      <div className="absolute left-1/2 top-0 hidden h-16 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-ring/40 md:block" />
 
       <motion.div
         ref={ref}
@@ -78,30 +77,32 @@ export function CalendarShell() {
         }}
         className="relative w-full max-w-5xl max-h-[94vh]"
       >
-        <RingBinder />
+        <div className="hidden md:block">
+          <RingBinder />
+        </div>
 
         <div
-          className="paper-surface relative max-h-[92vh] overflow-hidden rounded-2xl bg-paper shadow-calendar"
-          style={{ transformStyle: "preserve-3d" }}
+          className="paper-surface preserve-3d relative max-h-[92vh] overflow-hidden rounded-2xl bg-paper shadow-calendar"
         >
           <div className="hidden h-full min-h-[560px] md:grid md:max-h-[92vh] md:grid-cols-[2fr_1fr]">
-            <div className="flex flex-col">
+            <div className="flex min-h-0 flex-col">
               <div className="relative h-52">
                 <HeroPanel month={currentDate.getMonth()} />
               </div>
               <MonthNav />
               <MonthGrid />
             </div>
-            <NotesPanel />
+            <div className="min-h-0">
+              <NotesPanel />
+            </div>
           </div>
 
-          <div className="flex max-h-[90vh] flex-col overflow-y-auto md:hidden">
-            <div className="relative h-40">
+          <div className="flex flex-col pb-16 md:hidden">
+            <div className="relative h-28 min-[380px]:h-32 sm:h-40">
               <HeroPanel month={currentDate.getMonth()} />
             </div>
             <MonthNav />
             <MonthGrid />
-            <MobileNotesToggle />
           </div>
         </div>
       </motion.div>

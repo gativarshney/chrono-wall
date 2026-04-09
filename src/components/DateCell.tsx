@@ -63,7 +63,7 @@ export function DateCell({
       type="button"
       aria-label={format(cell.date, "PPPP")}
       aria-pressed={isStart || isEnd || isInRange || isSameDay(cell.date, new Date())}
-      className={`date-cell relative isolate flex aspect-square w-full cursor-pointer select-none flex-col items-center justify-center rounded-lg font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora-mid/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${getStateClass()}`}
+      className={`date-cell relative isolate flex aspect-square w-full cursor-pointer select-none flex-col items-center justify-center rounded-md font-sans text-xs font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora-mid/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:rounded-lg sm:text-sm md:aspect-auto md:h-[clamp(2.65rem,4.7vh,3.3rem)] ${getStateClass()}`}
       onClick={() => onClick(cell.date)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
